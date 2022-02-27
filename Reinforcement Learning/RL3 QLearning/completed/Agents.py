@@ -11,13 +11,11 @@ class QAgent():
         self.eps = 0.5   
 
     def choose_action(self,state):
-        if random.random() < self.eps:
-            # randomly select action from state
-            action = np.random.choice(len(self.q_vals[state]))
-        else:
-            # greedily select action from state
-            action = np.argmax(self.q_vals[state])
-        return action
+        return (
+            np.random.choice(len(self.q_vals[state]))
+            if random.random() < self.eps
+            else np.argmax(self.q_vals[state])
+        )
 
         
     def learn(self, cur_state,action,reward,next_state):

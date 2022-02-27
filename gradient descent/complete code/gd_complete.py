@@ -49,7 +49,7 @@ def grad_desc(X,Y,m,b):
 	return m,b	 
 
 
-for i in range(0,10):
+for _ in range(10):
 	m,b = grad_desc(X,Y,m,b)
 	plot_regression_line(X,m,b)
 

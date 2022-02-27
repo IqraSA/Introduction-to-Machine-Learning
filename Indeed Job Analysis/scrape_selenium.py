@@ -1,5 +1,5 @@
 from selenium import webdriver
-import pandas as pd 
+import pandas as pd
 from bs4 import BeautifulSoup
 
 options = webdriver.ChromeOptions()
@@ -8,19 +8,19 @@ driver = webdriver.Chrome("./chromedriver")
 
 df = pd.DataFrame(columns=["Title","Location","Company","Salary","Sponsored","Description"])
 
+jobs = []
 for i in range(0,500,10):
 	driver.get('https://www.indeed.co.in/jobs?q=artificial%20intelligence&l=India&start='+str(i))
-	jobs = []
 	driver.implicitly_wait(4)
-	
+
 
 	for job in driver.find_elements_by_class_name('result'):
 
 		soup = BeautifulSoup(job.get_attribute('innerHTML'),'html.parser')
-		
+
 		try:
 			title = soup.find("a",class_="jobtitle").text.replace("\n","").strip()
-			
+
 		except:
 			title = 'None'
 
@@ -45,7 +45,7 @@ for i in range(0,500,10):
 		except:
 			sponsored = "Organic"				
 
-		
+
 		sum_div = job.find_element_by_xpath('./div[3]')
 		try:
 			sum_div.click()

@@ -21,8 +21,8 @@ def show_eigenfaces(pca):
 	fig, axes = plt.subplots(3, 8, figsize=(9, 4),
 	                         subplot_kw={'xticks':[], 'yticks':[]})
 	for i, ax in enumerate(axes.flat):
-	    ax.imshow(pca.components_[i].reshape(64, 64), cmap='gray')
-	    ax.set_title("PC " + str(i+1))
+		ax.imshow(pca.components_[i].reshape(64, 64), cmap='gray')
+		ax.set_title(f"PC {str(i+1)}")
 	plt.show()
 
 
