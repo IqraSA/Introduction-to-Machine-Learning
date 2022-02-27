@@ -118,7 +118,7 @@ class CrawlingRobotEnv(Env):
           current state
         """
 
-        actions = list()
+        actions = []
 
         currArmBucket,currHandBucket = state
         if currArmBucket > 0: actions.append(0)
@@ -358,16 +358,17 @@ class CrawlingRobot:
         x = self.armLength * armCos + self.handLength * handCos + self.robotWidth
         y = self.armLength * armSin + self.handLength * handSin + self.robotHeight
 
-        if y < 0:
-            if yOld <= 0:
-                return math.sqrt(xOld*xOld + yOld*yOld) - math.sqrt(x*x + y*y)
-            return (xOld - yOld*(x-xOld) / (y - yOld)) - math.sqrt(x*x + y*y)
-        else:
-            if yOld  >= 0:
-                return 0.0
-            return -(x - y * (xOld-x)/(yOld-y)) + math.sqrt(xOld*xOld + yOld*yOld)
+        if y >= 0:
+            return (
+                0.0
+                if yOld >= 0
+                else -(x - y * (xOld - x) / (yOld - y))
+                + math.sqrt(xOld * xOld + yOld * yOld)
+            )
 
-        raise 'Never Should See This!'
+        if yOld <= 0:
+            return math.sqrt(xOld*xOld + yOld*yOld) - math.sqrt(x*x + y*y)
+        return (xOld - yOld*(x-xOld) / (y - yOld)) - math.sqrt(x*x + y*y)
 
     def draw(self, stepCount, root):
         if self.canvas is None or root is None:
